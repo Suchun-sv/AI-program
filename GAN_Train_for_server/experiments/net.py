@@ -1,13 +1,3 @@
-##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-## Created by: Hang Zhang
-## ECE Department, Rutgers University
-## Email: zhang.hang@rutgers.edu
-## Copyright (c) 2017
-##
-## This source code is licensed under the MIT-style license found in the
-## LICENSE file in the root directory of this source tree 
-##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 import numpy as np
 import torch
 import torch.nn as nn
@@ -64,7 +54,6 @@ class Basicblock(nn.Module):
 class UpBasicblock(nn.Module):
     """ Up-sample residual block (from MSG-Net paper)
     Enables passing identity all the way through the generator
-    ref https://arxiv.org/abs/1703.06953
     """
     def __init__(self, inplanes, planes, stride=2, norm_layer=nn.BatchNorm2d):
         super(UpBasicblock, self).__init__()
@@ -183,9 +172,9 @@ class Inspiration(nn.Module):
     def __init__(self, C, B=1):
         super(Inspiration, self).__init__()
         # B is equal to 1 or input mini_batch
-        self.weight = nn.Parameter(torch.Tensor(1,C,C), requires_grad=True)
+        self.weight = nn.Parameter(torch.Tensor(1, C, C), requires_grad=True)
         # non-parameter buffer
-        self.G = Variable(torch.Tensor(B,C,C), requires_grad=True)
+        self.G = Variable(torch.Tensor(B, C, C), requires_grad=True)
         self.C = C
         self.reset_parameters()
 

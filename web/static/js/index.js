@@ -36,8 +36,7 @@ $('#submit').click(function () {
             console.log(data['message']);
 
             if (data['status'] == '0') {
-                let path = '/static/result/';
-                $('#result-img').attr('src', path + data['result'])
+                $('#result-img').attr('src', data['result'])
             }
         },
 

@@ -1,13 +1,3 @@
-##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-## Created by: Hang Zhang
-## ECE Department, Rutgers University
-## Email: zhang.hang@rutgers.edu
-## Copyright (c) 2017
-##
-## This source code is licensed under the MIT-style license found in the
-## LICENSE file in the root directory of this source tree 
-##+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
 import numpy as np
 import torch
 import torch.nn as nn
@@ -15,9 +5,6 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 
 def var(x, dim=0):
-    '''
-    Calculates variance.
-    '''
     x_zero_meaned = x - x.mean(dim).expand_as(x)
     return x_zero_meaned.pow(2).mean(dim)
 
@@ -62,10 +49,6 @@ class Basicblock(nn.Module):
             
 
 class UpBasicblock(nn.Module):
-    """ Up-sample residual block (from MSG-Net paper)
-    Enables passing identity all the way through the generator
-    ref https://arxiv.org/abs/1703.06953
-    """
     def __init__(self, inplanes, planes, stride=2, norm_layer=nn.BatchNorm2d):
         super(UpBasicblock, self).__init__()
         self.residual_layer = UpsampleConvLayer(inplanes, planes,
@@ -84,10 +67,6 @@ class UpBasicblock(nn.Module):
 
 
 class Bottleneck(nn.Module):
-    """ Pre-activation residual block
-    Identity Mapping in Deep Residual Networks
-    ref https://arxiv.org/abs/1603.05027
-    """
     def __init__(self, inplanes, planes, stride=1, downsample=None, norm_layer=nn.BatchNorm2d):
         super(Bottleneck, self).__init__()
         self.expansion = 4
@@ -116,10 +95,6 @@ class Bottleneck(nn.Module):
 
 
 class UpBottleneck(nn.Module):
-    """ Up-sample residual block (from MSG-Net paper)
-    Enables passing identity all the way through the generator
-    ref https://arxiv.org/abs/1703.06953
-    """
     def __init__(self, inplanes, planes, stride=2, norm_layer=nn.BatchNorm2d):
         super(UpBottleneck, self).__init__()
         self.expansion = 4
@@ -154,11 +129,6 @@ class ConvLayer(torch.nn.Module):
         return out
 
 class UpsampleConvLayer(torch.nn.Module):
-    """UpsampleConvLayer
-    Upsamples the input and then does a convolution. This method gives better results
-    compared to ConvTranspose2d.
-    ref: http://distill.pub/2016/deconv-checkerboard/
-    """
 
     def __init__(self, in_channels, out_channels, kernel_size, stride, upsample=None):
         super(UpsampleConvLayer, self).__init__()
@@ -180,16 +150,12 @@ class UpsampleConvLayer(torch.nn.Module):
 
 
 class Inspiration(nn.Module):
-    """ Inspiration Layer (from MSG-Net paper)
-    tuning the featuremap with target Gram Matrix
-    ref https://arxiv.org/abs/1703.06953
-    """
     def __init__(self, C, B=1):
         super(Inspiration, self).__init__()
         # B is equal to 1 or input mini_batch
-        self.weight = nn.Parameter(torch.Tensor(1,C,C), requires_grad=True)
+        self.weight = nn.Parameter(torch.Tensor(1, C, C), requires_grad=True)
         # non-parameter buffer
-        self.G = Variable(torch.Tensor(B,C,C), requires_grad=True)
+        self.G = Variable(torch.Tensor(B, C, C), requires_grad=True)
         self.C = C
         self.reset_parameters()
 

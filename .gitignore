@@ -2,3 +2,10 @@
 *.swp
 *.pyc
 *.pth
+
+/static/img/*
+/static/upload/*
+/static/result/*
+/.idea
+/__pycache__
+db.sqlite3

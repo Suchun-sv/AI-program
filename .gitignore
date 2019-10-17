@@ -3,9 +3,9 @@
 *.pyc
 *.pth
 
-/static/img/*
-/static/upload/*
-/static/result/*
-/.idea
-/__pycache__
-db.sqlite3
+/web/static/img/*
+/web/static/upload/*
+/web/static/result/*
+/web/.idea
+/web/__pycache__
+/web/db.sqlite3

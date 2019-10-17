@@ -86,7 +86,6 @@ class UpBasicblock(nn.Module):
 class Bottleneck(nn.Module):
     """ Pre-activation residual block
     Identity Mapping in Deep Residual Networks
-    ref https://arxiv.org/abs/1603.05027
     """
     def __init__(self, inplanes, planes, stride=1, downsample=None, norm_layer=nn.BatchNorm2d):
         super(Bottleneck, self).__init__()
@@ -118,7 +117,6 @@ class Bottleneck(nn.Module):
 class UpBottleneck(nn.Module):
     """ Up-sample residual block (from MSG-Net paper)
     Enables passing identity all the way through the generator
-    ref https://arxiv.org/abs/1703.06953
     """
     def __init__(self, inplanes, planes, stride=2, norm_layer=nn.BatchNorm2d):
         super(UpBottleneck, self).__init__()
@@ -157,7 +155,6 @@ class UpsampleConvLayer(torch.nn.Module):
     """UpsampleConvLayer
     Upsamples the input and then does a convolution. This method gives better results
     compared to ConvTranspose2d.
-    ref: http://distill.pub/2016/deconv-checkerboard/
     """
 
     def __init__(self, in_channels, out_channels, kernel_size, stride, upsample=None):
@@ -182,7 +179,6 @@ class UpsampleConvLayer(torch.nn.Module):
 class Inspiration(nn.Module):
     """ Inspiration Layer (from MSG-Net paper)
     tuning the featuremap with target Gram Matrix
-    ref https://arxiv.org/abs/1703.06953
     """
     def __init__(self, C, B=1):
         super(Inspiration, self).__init__()

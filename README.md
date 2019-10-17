@@ -1,12 +1,17 @@
 # 人工智能大作业-风格迁移
 ```code
-└─backend(风格迁移引擎后端_拟部署在服务器上)
-    ├─experiments
-    │  ├─dataset
+└─web
+    ├─ai_project  # django项目配置文件
+    ├─backend   # 网络模型部分
     │  ├─images
-    │  │  ├─21styles
-    │  │  ├─9styles
-    │  │  └─content
+    │  │  ├─content
+    │  │  └─styles
     │  └─models
-    └─images
+    ├─mst
+    ├─static
+    │  ├─img
+    │  ├─js
+    │  ├─result
+    │  └─upload
+    └─templates
 ```

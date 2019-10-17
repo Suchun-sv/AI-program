@@ -3,7 +3,7 @@
 *.pyc
 *.pth
 
-
+.vscode
 /.idea
 /web/.idea
 /web/__pycache__

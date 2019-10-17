@@ -11,7 +11,7 @@ $('#upload').change(function () {
 
 // 显示选择的风格图片
 $('#choice').change(function () {
-    let img_path = '/static/img/' + $('#choice').val() + '.png';
+    let img_path = '/static/img/' + $('#choice').val() + '.jpg';
     $('#style-img').attr('src', img_path);
 });
 

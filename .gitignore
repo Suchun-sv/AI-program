@@ -7,5 +7,5 @@
 /.idea
 /web/.idea
 /web/__pycache__
-
+/GAN_Train_for_server/.ipynb_checkpoints
 /web/db.sqlite3

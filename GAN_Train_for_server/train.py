@@ -12,7 +12,7 @@ from torchvision import transforms
 from torchvision import datasets
 import numpy as np
 
-from experiments.net import Net, VGG16
+from experiments.net import Net, Vgg16
 from experiments import utils
 if __name__ == "__main__":
     image_size = 255

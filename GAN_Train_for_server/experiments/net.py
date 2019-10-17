@@ -5,9 +5,6 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 
 def var(x, dim=0):
-    '''
-    Calculates variance.
-    '''
     x_zero_meaned = x - x.mean(dim).expand_as(x)
     return x_zero_meaned.pow(2).mean(dim)
 
@@ -52,9 +49,6 @@ class Basicblock(nn.Module):
             
 
 class UpBasicblock(nn.Module):
-    """ Up-sample residual block (from MSG-Net paper)
-    Enables passing identity all the way through the generator
-    """
     def __init__(self, inplanes, planes, stride=2, norm_layer=nn.BatchNorm2d):
         super(UpBasicblock, self).__init__()
         self.residual_layer = UpsampleConvLayer(inplanes, planes,
@@ -73,9 +67,6 @@ class UpBasicblock(nn.Module):
 
 
 class Bottleneck(nn.Module):
-    """ Pre-activation residual block
-    Identity Mapping in Deep Residual Networks
-    """
     def __init__(self, inplanes, planes, stride=1, downsample=None, norm_layer=nn.BatchNorm2d):
         super(Bottleneck, self).__init__()
         self.expansion = 4
@@ -104,9 +95,6 @@ class Bottleneck(nn.Module):
 
 
 class UpBottleneck(nn.Module):
-    """ Up-sample residual block (from MSG-Net paper)
-    Enables passing identity all the way through the generator
-    """
     def __init__(self, inplanes, planes, stride=2, norm_layer=nn.BatchNorm2d):
         super(UpBottleneck, self).__init__()
         self.expansion = 4
@@ -141,10 +129,6 @@ class ConvLayer(torch.nn.Module):
         return out
 
 class UpsampleConvLayer(torch.nn.Module):
-    """UpsampleConvLayer
-    Upsamples the input and then does a convolution. This method gives better results
-    compared to ConvTranspose2d.
-    """
 
     def __init__(self, in_channels, out_channels, kernel_size, stride, upsample=None):
         super(UpsampleConvLayer, self).__init__()
@@ -166,9 +150,6 @@ class UpsampleConvLayer(torch.nn.Module):
 
 
 class Inspiration(nn.Module):
-    """ Inspiration Layer (from MSG-Net paper)
-    tuning the featuremap with target Gram Matrix
-    """
     def __init__(self, C, B=1):
         super(Inspiration, self).__init__()
         # B is equal to 1 or input mini_batch

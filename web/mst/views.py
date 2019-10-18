@@ -22,6 +22,14 @@ def upload_image(request):
     接受上传图片和选择的风格
     """
     if request.method == 'GET':
+        upload_path = os.path.join(STATICFILES_DIRS[0], 'upload/')
+        if not os.path.isdir(upload_path):
+            os.makedirs(upload_path)
+
+        result_path = os.path.join(STATICFILES_DIRS[0], 'result/')
+        if not os.path.isdir(result_path):
+            os.makedirs(result_path)
+
         return render(request, 'index.html')
 
     if request.method == 'POST':

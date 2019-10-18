@@ -23,7 +23,10 @@ def main():
     if args.subcommand is None:
         raise ValueError("ERROR: specify the experiment type")
     if args.cuda and not torch.cuda.is_available():
-        raise ValueError("ERROR: cuda is not available, try running on CPU")
+        if args.subcommand == 'eval':
+            print("Warning: cuda is not available, try running on CPU")
+        else:
+            raise ValueError("ERROR: cuda is not available, try running on CPU")
 
 
     if args.subcommand == "train":
@@ -239,7 +242,7 @@ def evaluate(args):
             del model_dict[key]
     style_model.load_state_dict(model_dict, False)
 
-    if args.cuda:
+    if torch.cuda.is_available():
         style_model.cuda()
         content_image = content_image.cuda()
         style = style.cuda()

@@ -1,10 +1,11 @@
 import json
 import os
+import datetime
+import random
+import shutil
 
 from django.http import HttpResponse
 from django.shortcuts import render
-import datetime
-import random
 
 # Create your views here.
 from ai_project.settings import STATICFILES_DIRS
@@ -14,7 +15,8 @@ def index(request):
     """
     展示主界面
     """
-    return render(request, 'index.html')
+    images = os.listdir('static/img/')
+    return render(request, 'index.html', {'images': images})
 
 
 def upload_image(request):
@@ -29,27 +31,29 @@ def upload_image(request):
 
         image_name = get_random() + '-' + image.name  # 生成图片和上传图片的名称
 
-        choice = request.POST['choice']  # 选择的风格名称
+        style_image_name = request.POST['style_image_name']  # 选择的风格名称
 
         # 上传图片
         if image is None:
             return HttpResponse(json.dumps({'status': 1, 'message': '没有需要上传的文件!'}))
         else:
-
+            if len(os.listdir('static/upload/')) > 15:
+                shutil.rmtree('static/upload/', True)
+                shutil.rmtree('static/result/', True)
             if not save_file(image, image_name):
                 return HttpResponse(json.dumps({'status': 1, 'message': '上传文件失败!'}))
 
         # 调用模型
-        if not test_model(choice, image_name):
+        if not test_model(style_image_name, image_name):
             return HttpResponse(json.dumps({'status': 1, 'message': '生成图片失败'}))
 
         return HttpResponse(json.dumps({'status': 0, 'message': '上传成功', 'result': image_name}))
 
 
-def test_model(choice, image_name):
+def test_model(style_image_name, image_name):
     """
     调用模型
-    :param choice: 选择的风格
+    :param style_image_name: 选择的风格
     :param image_name: 调用模型生成的图片名称
     :return:
     """
@@ -58,19 +62,10 @@ def test_model(choice, image_name):
     if not os.path.isdir(output_dir):
         os.makedirs(output_dir)
 
-    # choice 与风格图片的映射
-    style_ = {
-        "0": "starry_night.jpg",  # 星月夜
-        "1": "the_scream.jpg",
-        "2": "wave.jpg",
-        "3": "picasso_selfport1907.jpg",
-        "4": "pencil.jpg"
-    }
-
     # === 调用模型 ===
     content_size = 256  # 根据显存调整该参数
     root = "backend/"  # 模型部分的根文件夹
-    style = root + f"images/styles/{style_[choice]}"  # 风格图片
+    style = root + f"images/styles/" + style_image_name  # 风格图片
     model = root + "models/21styles.model"  # 模型路径
     path = 'static/upload/' + image_name  # 上传图片
     output = "static/result/" + image_name  # 输出图片

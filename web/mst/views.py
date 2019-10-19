@@ -37,7 +37,7 @@ def upload_image(request):
         if image is None:
             return HttpResponse(json.dumps({'status': 1, 'message': '没有需要上传的文件!'}))
         else:
-            if len(os.listdir('static/upload/')) > 15:
+            if os.path.isdir('static/upload/') and len(os.listdir('static/upload/')) > 15:
                 shutil.rmtree('static/upload/', True)
                 shutil.rmtree('static/result/', True)
             if not save_file(image, image_name):

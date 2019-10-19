@@ -72,7 +72,7 @@ def test_model(choice, image_name):
     root = "backend/"  # 模型部分的根文件夹
     style = root + f"images/styles/{style_[choice]}"  # 风格图片
     model = root + "models/21styles.model"  # 模型路径
-    path = 'static/upload' + image_name  # 上传图片
+    path = 'static/upload/' + image_name  # 上传图片
     output = "static/result/" + image_name  # 输出图片
 
     cmd = f"python {root}main.py eval --content-image {path} --style-image {style} --output-image {output} --model {model} --content-size {content_size} --cuda 1"
